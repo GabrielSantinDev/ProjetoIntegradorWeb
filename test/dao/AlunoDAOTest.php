@@ -7,18 +7,35 @@ use model\Aluno;
 
 class AlunoDAOTest extends \PHPUnit\Framework\TestCase {
 
-    public function testInserir() {
+    private function inserirAluno() {
         $aluno = new Aluno();
         $aluno->setNome("Gabriel");
         $aluno->setEmail("gabriel@email.com");
         $aluno->setSenha("12345");
         $aluno->setDataNascimento(new \DateTime("2006-01-01"));
         $aluno->setDataCadastro(new \DateTime("now"));
+        $aluno->setNivelAprendizado("Iniciante");
         $alunoInserido = AlunoDAO::salvar($aluno);
+        return $alunoInserido;
+    }
+    public function testInserir() {
+
+        $alunoInserido = $this->inserirAluno();
 
         $this->assertNotNull($alunoInserido->getId());
     }
 
+    public function testAlterar() {
+        $alunoInserido = $this->inserirAluno();
+
+        $alunoAlterarId = $alunoInserido->getId();
+        $alunoInserido->setNome("Gabriel Alterar");
+
+        AlunoDAO::salvar($alunoInserido);
+        $alunoAlterado = AlunoDAO::buscarId($alunoAlterarId);
+        $alunoAlterarNome = $alunoAlterado->getNome();
+        $this->assertEquals($alunoAlterarNome, "Gabriel Alterar");
+    }
     public function testListar(){
         $alunos = AlunoDAO::listar();
         foreach ($alunos as $aluno){
@@ -29,28 +46,35 @@ class AlunoDAOTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testBuscarId(){
-        $aluno = new Aluno();
-        $aluno->setNome("Gabriel");
-        $aluno->setEmail("gabriel@email.com");
-        $aluno->setSenha("12345");
-        $alunoInserido = AlunoDAO::salvar($aluno);
+        $alunoInserido = $this->inserirAluno();
 
-        $alunoBuscado = AlunoDAO::buscarId($aluno->getId());
+        $alunoBuscado = AlunoDAO::buscarId($alunoInserido->getId());
         $this->assertNotNull($alunoBuscado->getId());
     }
 
     public function testDeletar(){
-        $aluno = new Aluno();
-        $aluno->setNome("Gabriel Deletar");
-        $aluno->setEmail("gabriel@email.com");
-        $aluno->setSenha("12345");
-        $alunoInserido = AlunoDAO::salvar($aluno);
+        $alunoInserido = $this->inserirAluno();
 
-        $idDeletar = $alunoInserido->getId();
-        AlunoDAO::deletar($idDeletar);
+        $alunoDeletarId = $alunoInserido->getId();
 
-        $alunoDeletado = AlunoDAO::buscarId($idDeletar);
+        AlunoDAO::deletar($alunoInserido);
+
+        $alunoDeletado = AlunoDAO::buscarId($alunoDeletarId);
         $this->assertNull($alunoDeletado);
 
+    }
+
+    public function testBuscarNome(){
+        $alunoInserido = $this->inserirAluno();
+
+        $alunosBuscados = AlunoDAO::buscarNome("Gabriel");
+        $this->assertNotEmpty($alunosBuscados);
+    }
+
+    public function testBuscarNomeParecido(){
+        $alunoInserido = $this->inserirAluno();
+
+        $alunosBuscados = AlunoDAO::buscarNomeParecido("Gabriel");
+        $this->assertNotEmpty($alunosBuscados);
     }
 }
