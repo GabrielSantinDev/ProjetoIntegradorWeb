@@ -1,5 +1,13 @@
 # Projeto Integrador - Oficina de Desenvolvimento Web
 
+![PHP](https://img.shields.io/badge/PHP-8-blue)
+![Doctrine](https://img.shields.io/badge/Doctrine-ORM-orange)
+![Composer](https://img.shields.io/badge/Composer-Depend%C3%AAncias-brown)
+![PHPUnit](https://img.shields.io/badge/PHPUnit-Testes-green)
+![MySQL](https://img.shields.io/badge/MySQL-Banco-informational)
+![XAMPP](https://img.shields.io/badge/XAMPP-Ambiente-red)
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+
 Projeto desenvolvido para a disciplina de **Oficina de Desenvolvimento Web**, com o objetivo de aplicar conceitos de **modelagem de entidades**, **persistência de dados**, **operações CRUD** e **organização de um sistema web em PHP**.
 
 O sistema foi desenvolvido em ambiente local utilizando **XAMPP (Apache/MySQL)**, com estrutura organizada em pastas e uso de **Doctrine ORM** para o mapeamento das classes.
