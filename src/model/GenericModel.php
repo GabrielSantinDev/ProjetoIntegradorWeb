@@ -23,3 +23,6 @@ abstract class GenericModel {
         return $this->id;
     }
 }
+
+
+

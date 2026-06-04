@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'tb_instrutor')]
-class Instrutor extends GenericModel
+class Instrutor extends \model\Usuario
 {
     #[ORM\OneToMany(targetEntity: Curso::class, mappedBy: "instrutor", cascade: ["all"]
         , orphanRemoval: true)]
