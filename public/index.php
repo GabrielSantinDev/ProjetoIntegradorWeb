@@ -14,14 +14,14 @@ define('BASE_URL', '/ProjetoIntegradorWeb');
 
 // Configuração do "Dispatcher" (Despachante) de rotas
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
-    // Aqui você define suas rotas:
-    $r->get('/', 'CursoController@index');
-    $r->get('/home', 'CursoController@index');
-    $r->get('/cursos', 'CursoController@listar');
-    $r->get('/cursos/novo', 'CursoController@novo');
-    $r->get('/cursos/{id}/editar', 'CursoController@editar');
-    $r->get('/cursos/{id}', 'CursoController@buscar');
-    $r->post('/cursos/{id}/remover', 'CursoController@remover');
+    $r->get('/',                      'CursoController@index');
+    $r->get('/home',                  'CursoController@index');
+    $r->get('/cursos',                'CursoController@index');
+    $r->post('/cursos/novo',           'CursoController@novo');
+    $r->post('/cursos/{id}/editar',    'CursoController@editar');
+    $r->get('/cursos/{id}',           'CursoController@buscar');
+    $r->post('/cursos/{id}/remover',  'CursoController@remover');
+    $r->post('/cursos/toggle-publicacao', 'CursoController@togglePublicacao');
 });
 
 // Pega apenas o caminho da URL (ex: de "/projeto/Curso?id=1" extrai apenas "/projeto/Curso")

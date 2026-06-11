@@ -9,9 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Curso extends GenericModel
 {
 
+    #[ORM\ManyToOne(targetEntity: Instrutor::class, inversedBy: 'cursos_criados')]
     #[ORM\JoinColumn(name: 'instrutor_id')]
-    #[ORM\ManyToOne(targetEntity: Curso::class)]
-    private $instrutor;
+    private $instrutor = null;
     #[ORM\OneToMany(targetEntity: Matricula::class, mappedBy: "curso", cascade: ["all"]
         , orphanRemoval: true)]
     private $matriculas;
@@ -21,10 +21,13 @@ class Curso extends GenericModel
     private $categoria;
     #[ORM\Column(type: 'float')]
     private $horas_duracao;
-    #[Column(type: "decimal", precision: 10, scale: 2)]
+    #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
     private $preco;
     #[ORM\Column(type: 'string')]
     private $descricao;
+
+    #[ORM\Column(type: 'boolean')]
+    private $publicado;
     #[ORM\OneToMany(targetEntity: Avaliacao::class, mappedBy: "curso", cascade: ["all"]
         , orphanRemoval: true)]
     private $avaliacoes;
@@ -156,5 +159,23 @@ class Curso extends GenericModel
     {
         $this->avaliacoes = $avaliacoes;
     }
+
+    /**
+     * @return mixed
+     */
+    public function isPublicado()
+    {
+        return $this->publicado;
+    }
+
+    /**
+     * @param mixed $publicado
+     */
+    public function setPublicado($publicado): void
+    {
+        $this->publicado = $publicado;
+    }
+
+
 
 }

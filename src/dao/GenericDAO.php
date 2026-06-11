@@ -32,9 +32,14 @@ abstract class GenericDAO
     public static function listar()
     {
         try {
-            $em = Conexao::getEntityManager(); // captura a instancia do EntityManager que controla o nosso banco pelo Doctrine.
-            $repository = $em->getRepository(static::$modelClass); // Obtém o repositório específico da classe/entidade alvo
-            return $repository->findAll(); // Executa um 'SELECT * FROM ...' e salva tudo em um array. Retorna este array no final
+            $em = Conexao::getEntityManager();
+            $repository = $em->getRepository(static::$modelClass);
+
+            return $repository->findBy(
+                [],
+                ['id' => 'DESC'] // maior ID primeiro
+            );
+
         } catch (Exception $ex) {
             throw new Exception("Falha ao listar os dados." . $ex->getMessage());
         }
