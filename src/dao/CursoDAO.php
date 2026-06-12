@@ -20,14 +20,20 @@ class CursoDAO extends GenericDAO
         }
     }
 
-    public static function buscarPorInstrutorId($instrutor){
+    public static function buscarPorInstrutorId($instrutorId){
         try {
             $em = Conexao::getEntityManager();
-            $query = $em->createQuery("SELECT c FROM model\Curso c WHERE c.instrutor_id = :instrutor");
-            $query->setParameter("instrutor", $instrutor);
+
+            $query = $em->createQuery(
+                "SELECT c FROM model\Curso c WHERE c.instrutor = :instrutor"
+            );
+
+            $query->setParameter("instrutor", $instrutorId);
+
             return $query->getResult();
-        } catch (Exception $ex){
-            throw new Exception("Falha ao buscar por Instrutor. " . $ex->getMessage());
+
+        } catch (\Exception $ex){
+            throw new \Exception("Falha ao buscar por Instrutor. " . $ex->getMessage());
         }
     }
 
@@ -42,4 +48,17 @@ class CursoDAO extends GenericDAO
             throw new Exception("Falha ao buscar Curso por categoria. " . $ex->getMessage());
         }
     }
+
+    public static function listarPublicados(): array
+    {
+        try {
+            $em         = \utils\Conexao::getEntityManager();
+            $repository = $em->getRepository(Curso::class);
+            return $repository->findBy(['publicado' => true]);
+        } catch (\Exception $ex) {
+            throw new \Exception("Falha ao listar cursos publicados. " . $ex->getMessage());
+        }
+    }
+
+
 }

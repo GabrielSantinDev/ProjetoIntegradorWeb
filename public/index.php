@@ -9,19 +9,34 @@ session_start();
 # Carrega o composer autoload com todas as dependências
 require "../vendor/autoload.php";
 
+
 # Define uma constante com o caminho base do projeto
 define('BASE_URL', '/ProjetoIntegradorWeb');
 
 // Configuração do "Dispatcher" (Despachante) de rotas
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
-    $r->get('/',                      'CursoController@index');
-    $r->get('/home',                  'CursoController@index');
-    $r->get('/cursos',                'CursoController@index');
-    $r->post('/cursos/novo',           'CursoController@novo');
-    $r->post('/cursos/{id}/editar',    'CursoController@editar');
-    $r->get('/cursos/{id}',           'CursoController@buscar');
-    $r->post('/cursos/{id}/remover',  'CursoController@remover');
-    $r->post('/cursos/toggle-publicacao', 'CursoController@togglePublicacao');
+
+    // Login e cadastro
+    $r->get('/',           'UsuarioController@login');
+    $r->get('/home',       'UsuarioController@home');
+    $r->get('/login',      'UsuarioController@login');
+    $r->post('/login',     'UsuarioController@autenticar');
+    $r->get('/cadastro',   'UsuarioController@cadastro');
+    $r->post('/cadastro',  'UsuarioController@registrar');
+    $r->get('/logout',     'UsuarioController@logout');
+
+    $r->get('/aluno/home',                          'AlunoController@homeAluno');
+    $r->get('/aluno/catalogo',                      'AlunoController@catalogo');
+    $r->post('/aluno/matricular',                   'AlunoController@matricular');
+
+    $r->get('/instrutor/home',                      'CursoController@homeInstrutor');
+    $r->post('/instrutor/cursos/novo',              'CursoController@novo');
+    $r->post('/instrutor/cursos/{id}/editar',       'CursoController@editar');
+    $r->get('/instrutor/cursos/{id}',               'CursoController@buscar');
+    $r->post('/instrutor/cursos/{id}/remover',      'CursoController@remover');
+    $r->post('/instrutor/cursos/{id}/atualizar-imagem',      'CursoController@atualizarImagem');
+    $r->post('/instrutor/cursos/toggle-publicacao', 'CursoController@togglePublicacao');
+
 });
 
 // Pega apenas o caminho da URL (ex: de "/projeto/Curso?id=1" extrai apenas "/projeto/Curso")

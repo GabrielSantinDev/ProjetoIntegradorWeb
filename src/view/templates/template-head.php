@@ -8,7 +8,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="icon" type="image/svg+xml" href="<?= BASE_URL ?>/assets/img/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="<?= BASE_URL ?>/public/assets/img/favicon.svg">
 
     <!-- Bootstrap -->
     <link
@@ -28,7 +28,7 @@
     <!-- CSS próprio -->
     <link
         rel="stylesheet"
-        href="<?= BASE_URL ?>/assets/css/style.css">
+        href="<?= BASE_URL ?>/public/assets/css/style.css">
 </head>
 
 <body>

@@ -87,6 +87,11 @@ body {
     font-weight: 500;
 }
 
+.btn-skillup-soft.active {
+    background: var(--skillup-navbar);
+    color: var(--skillup-primary);
+}
+
 .btn-skillup-soft:hover {
     background: rgba(124,58,237,.25);
 }
@@ -200,6 +205,40 @@ body {
     opacity: .75;
 }
 
+/* quando existe uma imagem dentro do thumbnail, ela deve preencher todo o espaço */
+.course-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* preenche cortando/esticando levemente */
+    border-radius: 14px;
+    display: block;
+}
+
+/* Thumb inside the aluno/catalogo cards should also fill the whole thumbnail area */
+.card-aluno-thumb {
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.card-aluno-thumb .course-thumbnail {
+    width: 100%;
+    height: 100%;
+    display: flex; /* keep flex so the default icon stays centered */
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: transparent; /* let image fill the area */
+}
+
+.card-aluno-thumb .course-thumbnail img,
+.card-aluno-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: inherit; /* match the container */
+}
+
 /* texto */
 .course-description {
     color: var(--skillup-muted);
@@ -273,17 +312,6 @@ body {
     margin: 0;
 }
 
-@media (max-width: 768px) {
-
-    .course-thumbnail {
-
-        width: 100%;
-
-        max-width: 120px;
-    }
-
-}
-
 /* ==========================
    MODAL SKILLUP
 ========================== */
@@ -331,7 +359,7 @@ textarea.input-skillup {
 
 /* erros de validação */
 .input-skillup.is-invalid {
-    border-color: #dc2626;
+    border-color: var(--error);
 }
 
 .input-skillup.is-invalid:focus {
@@ -340,7 +368,7 @@ textarea.input-skillup {
 
 .invalid-feedback {
     font-size: .78rem;
-    color: #f87171;
+    color: var(--error);
     margin-top: .25rem;
 }
 
@@ -371,4 +399,312 @@ input[type=number].input-skillup::-webkit-outer-spin-button {
 
 input[type=number].input-skillup {
     -moz-appearance: textfield;
+}
+
+/* ==========================
+   AUTH PAGES (login + cadastro)
+========================== */
+
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--skillup-bg);
+    padding: 2rem 1rem;
+    position: relative;
+}
+
+/* botão de tema flutuante */
+.auth-theme-btn {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 100;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--skillup-card);
+    border: 1px solid rgba(255,255,255,.08);
+    color: var(--skillup-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s ease, color .2s ease;
+}
+
+.auth-theme-btn:hover {
+    color: var(--skillup-primary);
+    background: var(--skillup-card);
+}
+
+/* card central */
+.auth-card {
+    background: var(--skillup-card);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 16px 48px rgba(0,0,0,.2);
+}
+
+/* logo dentro do card */
+.auth-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .65rem;
+    margin-bottom: 1.75rem;
+}
+
+.auth-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--skillup-text);
+    margin-bottom: .25rem;
+}
+
+.auth-subtitle {
+    color: var(--skillup-muted);
+    font-size: .9rem;
+    margin-bottom: 1.75rem;
+}
+
+/* botão de submit */
+.btn-auth {
+    height: 48px;
+    font-weight: 600;
+    font-size: .95rem;
+    border-radius: 12px;
+}
+
+/* link de rodapé */
+.auth-footer-text {
+    text-align: center;
+    color: var(--skillup-muted);
+    font-size: .875rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0;
+}
+
+.auth-link {
+    color: var(--skillup-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+/* hint de idade */
+.auth-hint {
+    font-size: .78rem;
+    color: var(--skillup-muted);
+    margin-top: .35rem;
+    margin-bottom: 0;
+}
+
+/* campo com botão de mostrar/ocultar senha */
+.input-password-wrapper {
+    position: relative;
+}
+
+.input-password-wrapper .input-skillup {
+    padding-right: 2.75rem;
+}
+
+.btn-toggle-senha {
+    position: absolute;
+    right: .75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--skillup-muted);
+    padding: 0;
+    cursor: pointer;
+    line-height: 1;
+    transition: color .15s ease;
+}
+
+.btn-toggle-senha:hover {
+    color: var(--skillup-primary);
+}
+
+/* seletor Aluno / Instrutor */
+.tipo-conta-wrapper {
+    display: flex;
+    gap: .75rem;
+}
+
+.tipo-conta-btn {
+    flex: 1;
+    text-align: center;
+    padding: .6rem 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--skillup-muted);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: .9rem;
+    transition: all .15s ease;
+    background: transparent;
+    user-select: none;
+}
+
+.tipo-conta-btn:hover {
+    border-color: var(--skillup-primary);
+    color: var(--skillup-text);
+}
+
+/* radio selecionado → destaca o label */
+input[type="radio"]:checked + .tipo-conta-btn {
+    border-color: var(--skillup-primary);
+    color: var(--skillup-primary);
+    background: rgba(127,34,254,.08);
+}
+
+/* input de data no tema escuro */
+input[type="date"].input-skillup::-webkit-calendar-picker-indicator {
+    filter: invert(0.6);
+    cursor: pointer;
+}
+
+/* responsivo */
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 2rem 1.25rem;
+        border-radius: 16px;
+    }
+}
+
+/* ==========================
+   CARDS DO ALUNO
+========================== */
+
+.card-aluno {
+    background: var(--skillup-card);
+    border: 1px solid rgba(255, 255, 255, .06);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: box-shadow .2s ease, transform .2s ease;
+}
+
+.card-aluno:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+}
+
+/* Thumbnail */
+.card-aluno-thumb {
+    height: 144px;
+    background: linear-gradient(135deg, rgba(127, 34, 254, .15), rgba(236, 72, 153, .08));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.card-aluno-thumb-icon {
+    font-size: 2rem;
+    color: var(--skillup-primary);
+    opacity: .4;
+}
+
+.card-aluno-badge {
+    position: absolute;
+    top: .75rem;
+    left: .75rem;
+    font-size: .7rem;
+    font-weight: 500;
+    padding: .2rem .55rem;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, .45);
+    color: #fff;
+    backdrop-filter: blur(4px);
+}
+
+/* Body */
+.card-aluno-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: .35rem;
+}
+
+.card-aluno-titulo {
+    font-size: .875rem;
+    font-weight: 600;
+    color: var(--skillup-text);
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+}
+
+.card-aluno-instrutor {
+    font-size: .75rem;
+    color: var(--skillup-muted);
+    margin: 0;
+}
+
+.card-aluno-meta {
+    font-size: .75rem;
+    color: var(--skillup-muted);
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+}
+
+.card-aluno-preco {
+    font-size: .875rem;
+    font-weight: 600;
+    color: var(--skillup-text);
+    margin: 0;
+}
+
+/* Barra de progresso */
+.card-aluno-progress-bar {
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(127, 34, 254, .15);
+}
+
+.card-aluno-progress-bar .progress-bar {
+    background: var(--skillup-primary);
+    border-radius: 999px;
+}
+
+/* Card sem cursos do aluno */
+.card-sem-cursos-aluno {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5rem 1rem;
+    gap: .75rem;
+    color: var(--skillup-text);
+}
+
+.card-sem-cursos-aluno-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: rgba(127, 34, 254, .1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: var(--skillup-primary);
+    opacity: .6;
 }

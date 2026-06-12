@@ -46,7 +46,7 @@ $(function () {
             $('#modalCursoTitulo').text('Editar Curso');
             $('#modalCursoSubtitulo').text('Preencha os dados para editar o curso.');
             $('#btnConfirmar').text('Salvar');
-            $('#formCurso').attr('action', BASE_URL + '/cursos/' + curso.id + '/editar');
+            $('#formCurso').attr('action', BASE_URL + '/instrutor/cursos/' + curso.id + '/editar');
 
             $('#cursoId').val(curso.id);
             $('#cursoTitulo').val(curso.titulo);
@@ -60,7 +60,7 @@ $(function () {
             $('#modalCursoTitulo').text('Novo Curso');
             $('#modalCursoSubtitulo').text('Preencha os dados para criar um novo curso.');
             $('#btnConfirmar').text('Criar Curso');
-            $('#formCurso').attr('action', BASE_URL + '/cursos/novo');
+            $('#formCurso').attr('action', BASE_URL + '/instrutor/cursos/novo');
 
             $('#cursoId').val('');
             $('#formCurso')[0].reset();
@@ -77,7 +77,7 @@ $(function () {
         const id = btn.data('id');
 
         $.ajax({
-            url: BASE_URL + '/cursos/toggle-publicacao',
+            url: BASE_URL + '/instrutor/cursos/toggle-publicacao',
             type: 'POST',
             data: { id: id },
             dataType: 'json',
@@ -119,5 +119,61 @@ $(function () {
             }
         });
     });
+
+    // ------------------
+    // atualizar imagens
+
+    // abrir seletor ao clicar na imagem do curso
+    $('.js-thumb-upload').on('click', function () {
+        const id = $(this).data('id');
+        $('.js-input-image[data-id="' + id + '"]').trigger('click');
+    });
+
+    // -------
+    // enviar imagens com ajax
+
+    $('.js-input-image').on('change', function () {
+
+        const input = this;
+        const file = input.files[0];
+        const id = $(this).data('id');
+
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('imagem', file);
+        formData.append('id', id);
+
+        $.ajax({
+            url: BASE_URL + '/instrutor/cursos/' + id + '/atualizar-imagem',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+
+            success: function (data) {
+
+                if (data.success) {
+                    // Atualiza a miniatura do curso com a nova imagem retornada pelo servidor
+                    const thumb = $('.course-thumbnail[data-id="' + id + '"]');
+                    if (thumb.length) {
+                        thumb.html('<img src="' + data.url + '" alt="Thumb" class="img-fluid" />');
+                    }
+
+                    alert('Imagem atualizada com sucesso!');
+                } else {
+                    alert('Erro ao atualizar imagem: ' + (data.message || ''));
+                }
+            },
+
+            error: function (xhr) {
+                console.log("STATUS:", xhr.status);
+                console.log("RESPOSTA:", xhr.responseText);
+                alert("Erro no upload (veja console)");
+            }
+        });
+    });
+
 
 });

@@ -32,6 +32,12 @@ class Curso extends GenericModel
         , orphanRemoval: true)]
     private $avaliacoes;
 
+    #[ORM\Column(type: 'string', nullable: true)]
+    private $imagem_url;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private $imagem_public_id;
+
     /**
      * @return mixed
      */
@@ -176,6 +182,24 @@ class Curso extends GenericModel
         $this->publicado = $publicado;
     }
 
+    public function getImagemUrl()
+    {
+        return $this->imagem_url;
+    }
 
+    public function setImagemUrl($imagem_url): void
+    {
+        $this->imagem_url = $imagem_url;
+    }
+
+    public function getImagemPublicId()
+    {
+        return $this->imagem_public_id;
+    }
+
+    public function setImagemPublicId($imagem_public_id): void
+    {
+        $this->imagem_public_id = $imagem_public_id;
+    }
 
 }

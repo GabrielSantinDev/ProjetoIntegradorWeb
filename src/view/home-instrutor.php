@@ -1,13 +1,39 @@
+<?php
+$titulo = "Gerenciar Cursos";
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <title>Home</title>
-</head>
-<body class="container">
+require __DIR__ . '/templates/template-head.php';
+require __DIR__ . '/templates/template-navbar.php';
 
-    <h1> Teste </h1>
+?>
 
+<div class="container py-4">
 
-</body>
-</html>
+    <div class="row align-items-center mb-4">
+        <div class="col-md-6">
+            <h2 class="fw-bold">Gerenciar Cursos</h2>
+            <p class="text-muted-custom">Crie, edite e gerencie seus cursos</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCurso">
+                <i class="fa-solid fa-plus"></i> Novo Curso
+            </a>
+        </div>
+    </div>
+
+    <div class="course-list">
+        <?php if (empty($cursos)): ?>
+            <?php require __DIR__ . '/templates/card-sem-cursos.php'; ?>
+        <?php else: ?>
+            <?php foreach ($cursos as $curso): ?>
+                <?php require __DIR__ . '/templates/card-curso.php'; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+
+</div>
+
+<?php require __DIR__ . '/templates/modal-curso.php'; ?>
+
+<?php require __DIR__ . '/templates/template-footer.php'; ?>
+
+<script src="<?= BASE_URL ?>/assets/js/modal-curso.js"></script>

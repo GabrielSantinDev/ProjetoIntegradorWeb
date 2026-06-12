@@ -20,7 +20,7 @@
             <!-- BODY -->
             <div class="modal-body pt-3">
                 <form id="formCurso"
-                      action="<?= BASE_URL ?>/cursos/novo"
+                      action="<?= BASE_URL ?>/instrutor/cursos/novo"
                       method="POST">
 
                     <!-- ID oculto — preenchido pelo JS apenas na edição -->

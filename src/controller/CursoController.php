@@ -3,17 +3,31 @@
 namespace controller;
 
 use dao\CursoDAO;
+use dao\InstrutorDAO;
 use model\Curso;
+use model\Instrutor;
 use mysql_xdevapi\Exception;
+use service\StorageService;
 
 class CursoController
 {
 
-    public function index(): void
+    public function homeInstrutor(): void
     {
+
+        if (!isset($_SESSION['usuario'])) {
+            header('Location: ' . BASE_URL . '/login');
+            exit;
+        }
+
+        if (strtolower($_SESSION['usuario']['tipo']) !== 'instrutor') {
+            header('Location: ' . BASE_URL . '/login');
+            exit;
+        }
+
         try {
-            $cursos = CursoDAO::listar();
-            require __DIR__ . '/../view/home-page.php';
+            $cursos = CursoDAO::buscarPorInstrutorId($_SESSION['usuario']['id']);
+            require __DIR__ . '/../view/home-instrutor.php';
         } catch (\Exception $ex) {
             $erro = $ex->getMessage();
             require __DIR__ . '/../view/error-404.php';
@@ -58,16 +72,18 @@ class CursoController
             $curso->setHorasDuracao($horasDuracao);
             $curso->setPublicado(false);
 
-            // quando tiver login
-            // $curso->setInstrutor($_SESSION['usuario']);
+            //
+            $instrutor = InstrutorDAO::buscarId($_SESSION['usuario']['id']);
+            $curso->setInstrutor($instrutor);
 
             CursoDAO::salvar($curso);
+
         } catch (Exception $e) {
             echo "Erro ao salvar curso: " . $e->getMessage();
             exit;
         }
 
-        header('Location: ' . BASE_URL . '/cursos');
+        header('Location: ' . BASE_URL . '/instrutor/home');
 
         exit;
     }
@@ -117,7 +133,7 @@ class CursoController
             // salva (vai virar UPDATE automaticamente)
             CursoDAO::salvar($curso);
 
-            header('Location: ' . BASE_URL . '/cursos');
+            header('Location: ' . BASE_URL . '/instrutor/home');
             exit;
 
         } catch (\Exception $e) {
@@ -143,7 +159,7 @@ class CursoController
             echo "Erro ao deletar curso: " . $erro;
         }
 
-        header('Location: ' . BASE_URL . '/cursos');
+        header('Location: ' . BASE_URL . '/instrutor/home');
 
     }
 
@@ -178,5 +194,58 @@ class CursoController
             ]);
             exit;
         }
+    }
+
+    public function atualizarImagem(array $params)
+    {
+        $uploadService = new StorageService();
+
+        // detect if the request is AJAX / expects JSON
+        $isAjax = false;
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+            $isAjax = true;
+        } elseif (!empty($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) {
+            $isAjax = true;
+        }
+
+        try {
+            $id = $params['id'];
+            $curso = CursoDAO::buscarId($id);
+
+            if ($curso->getImagemPublicId()) {
+                $uploadService->deleteImage($curso->getImagemPublicId());
+            }
+
+            $result = $uploadService->uploadImage($_FILES['imagem'], '/php/cursos');
+
+            $curso->setImagemUrl($result['url']);
+            $curso->setImagemPublicId($result['public_id']);
+
+            CursoDAO::salvar($curso);
+
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => true,
+                    'url' => $result['url'],
+                    'public_id' => $result['public_id']
+                ]);
+                exit;
+            }
+
+        } catch (\Exception $ex) {
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => $ex->getMessage()
+                ]);
+                exit;
+            }
+
+            echo "Erro ao salvar imagem: " . $ex->getMessage();
+        }
+
+        header('Location: ' . BASE_URL . '/instrutor/home');
     }
 }

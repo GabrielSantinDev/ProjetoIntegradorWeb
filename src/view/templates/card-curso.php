@@ -5,9 +5,12 @@
             <!-- ESQUERDA -->
             <div class="col-12 col-md-8 col-lg-8">
                 <div class="d-flex gap-4">
-                    <div class="course-thumbnail">
-                        <i class="fa-solid fa-book-open"></i>
-                    </div>
+                    <?php require __DIR__ . '/curso-imagem.php'; ?>
+
+                    <input type="file"
+                           class="d-none js-input-image"
+                           data-id="<?= $curso->getId() ?>"
+                           accept="image/*">
 
                     <div class="flex-grow-1">
                         <div class="d-flex gap-2 mb-2 flex-wrap">
@@ -70,7 +73,7 @@
                         Editar
                     </button>
 
-                    <form action="<?= BASE_URL ?>/cursos/<?= $curso->getId() ?>/remover" method="POST">
+                    <form action="<?= BASE_URL ?>/instrutor/cursos/<?= $curso->getId() ?>/remover" method="POST">
                         <button type="submit" class="btn btn-card btn-card-remove">
                             <i class="fa-solid fa-trash"></i>
                             Remover

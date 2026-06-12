@@ -35,4 +35,16 @@ class InstrutorDAO extends GenericDAO
             throw new Exception("Falha ao buscar Instrutor pelo nome. " . $ex->getMessage());
         }
     }
+
+    public static function buscarPorEmail(string $email): ?Instrutor
+    {
+        try {
+            $em = \utils\Conexao::getEntityManager();
+            $repository = $em->getRepository(Instrutor::class);
+            return $repository->findOneBy(['email' => $email]);
+        } catch (\Exception $ex) {
+            throw new \Exception("Falha ao buscar instrutor por email." . $ex->getMessage());
+        }
+    }
+
 }

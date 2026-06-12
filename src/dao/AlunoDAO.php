@@ -35,4 +35,16 @@ class AlunoDAO extends GenericDAO
             throw new Exception("Falha ao buscar Aluno pelo nome. " . $ex->getMessage());
         }
     }
+
+    public static function buscarPorEmail(string $email): ?Aluno
+    {
+        try {
+            $em = \utils\Conexao::getEntityManager();
+            $repository = $em->getRepository(Aluno::class);
+            return $repository->findOneBy(['email' => $email]);
+        } catch (\Exception $ex) {
+            throw new \Exception("Falha ao buscar aluno por email." . $ex->getMessage());
+        }
+    }
+
 }
