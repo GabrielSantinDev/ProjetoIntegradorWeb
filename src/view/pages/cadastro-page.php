@@ -1,6 +1,6 @@
 <?php
 $titulo = "Criar conta";
-require __DIR__ . '/templates/template-head.php';
+require __DIR__ . '/../templates/template-head.php';
 ?>
 
     <div class="auth-wrapper">
@@ -128,4 +128,4 @@ require __DIR__ . '/templates/template-head.php';
         });
     </script>
 
-<?php require __DIR__ . '/templates/template-footer.php'; ?>
+<?php require __DIR__ . '/../templates/template-footer.php'; ?>

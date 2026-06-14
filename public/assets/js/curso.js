@@ -1,5 +1,14 @@
 $(function () {
 
+    iniciarValidacao();
+    configurarModal();
+    configurarPublicacao();
+    configurarUpload();
+
+});
+
+function iniciarValidacao() {
+
     // -------------------------------------------------
     // Validação com jQuery Validation
     // -------------------------------------------------
@@ -30,11 +39,15 @@ $(function () {
             error.insertAfter(element);
         },
     });
+}
+
+function configurarModal() {
 
     // -------------------------------------------------
     // Ao abrir o modal via botão "Editar"
     // O botão Editar no card-curso.php tem data-curso='...'
     // -------------------------------------------------
+
     $('#modalCurso').on('show.bs.modal', function (e) {
 
         const btn = $(e.relatedTarget); // botão que disparou o modal
@@ -68,7 +81,11 @@ $(function () {
             $('#formCurso').find('.invalid-feedback').remove();
         }
     });
+}
 
+function configurarPublicacao() {
+
+    // ================================
     // publicar/privar cursos
 
     $('.js-toggle-publicacao').on('click', function () {
@@ -119,6 +136,9 @@ $(function () {
             }
         });
     });
+}
+
+function configurarUpload() {
 
     // ------------------
     // atualizar imagens
@@ -155,10 +175,24 @@ $(function () {
             success: function (data) {
 
                 if (data.success) {
+
                     // Atualiza a miniatura do curso com a nova imagem retornada pelo servidor
+
                     const thumb = $('.course-thumbnail[data-id="' + id + '"]');
                     if (thumb.length) {
-                        thumb.html('<img src="' + data.url + '" alt="Thumb" class="img-fluid" />');
+                        // cache-busting to force reload
+                        let newUrl = data.url || '';
+                        if (newUrl) {
+                            newUrl += (newUrl.indexOf('?') === -1 ? '?_=' : '&_=') + Date.now();
+                        }
+
+                        const img = thumb.find('img');
+                        if (img.length) {
+                            img.attr('src', newUrl);
+                        } else {
+                            // insert image at the start so overlay/badge remain
+                            thumb.prepend('<img src="' + newUrl + '" alt="Thumb" class="img-fluid" />');
+                        }
                     }
 
                     alert('Imagem atualizada com sucesso!');
@@ -175,5 +209,4 @@ $(function () {
         });
     });
 
-
-});
+}

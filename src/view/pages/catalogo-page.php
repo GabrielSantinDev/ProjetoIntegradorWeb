@@ -1,7 +1,7 @@
 <?php
 $titulo = "Catálogo";
-require __DIR__ . '/templates/template-head.php';
-require __DIR__ . '/templates/template-navbar.php';
+require __DIR__ . '/../templates/template-head.php';
+require __DIR__ . '/../templates/template-navbar.php';
 
 ?>
 
@@ -20,7 +20,7 @@ require __DIR__ . '/templates/template-navbar.php';
             <div class="row g-4">
                 <?php foreach ($cursos as $curso): ?>
                     <div class="col-12 col-sm-6 col-lg-3">
-                        <?php require __DIR__ . '/templates/card-curso-catalogo.php'; ?>
+                        <?php require __DIR__ . '/../components/card-curso-catalogo.php'; ?>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -28,4 +28,4 @@ require __DIR__ . '/templates/template-navbar.php';
 
     </div>
 
-<?php require __DIR__ . '/templates/template-footer.php'; ?>
+<?php require __DIR__ . '/../templates/template-footer.php'; ?>

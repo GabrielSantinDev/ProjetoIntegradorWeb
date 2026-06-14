@@ -1,6 +1,6 @@
 <?php
 $titulo = "Entrar";
-require __DIR__ . '/templates/template-head.php';
+require __DIR__ . '/../templates/template-head.php';
 ?>
 
     <div class="auth-wrapper">
@@ -76,4 +76,4 @@ require __DIR__ . '/templates/template-head.php';
 
     </div>
 
-<?php require __DIR__ . '/templates/template-footer.php'; ?>
+<?php require __DIR__ . '/../templates/template-footer.php'; ?>

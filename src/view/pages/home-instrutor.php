@@ -1,12 +1,12 @@
 <?php
 $titulo = "Gerenciar Cursos";
 
-require __DIR__ . '/templates/template-head.php';
-require __DIR__ . '/templates/template-navbar.php';
+require __DIR__ . '/../templates/template-head.php';
+require __DIR__ . '/../templates/template-navbar.php';
 
 ?>
 
-<div class="container py-4">
+<div class="container py-4" style="max-width: 1200px;">
 
     <div class="row align-items-center mb-4">
         <div class="col-md-6">
@@ -22,18 +22,18 @@ require __DIR__ . '/templates/template-navbar.php';
 
     <div class="course-list">
         <?php if (empty($cursos)): ?>
-            <?php require __DIR__ . '/templates/card-sem-cursos.php'; ?>
+            <?php require __DIR__ . '/../components/card-sem-cursos.php'; ?>
         <?php else: ?>
             <?php foreach ($cursos as $curso): ?>
-                <?php require __DIR__ . '/templates/card-curso.php'; ?>
+                <?php require __DIR__ . '/../components/card-curso.php'; ?>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
 
 </div>
 
-<?php require __DIR__ . '/templates/modal-curso.php'; ?>
+<?php require __DIR__ . '/../components/modal-curso.php'; ?>
 
-<?php require __DIR__ . '/templates/template-footer.php'; ?>
+<?php require __DIR__ . '/../templates/template-footer.php'; ?>
 
-<script src="<?= BASE_URL ?>/assets/js/modal-curso.js"></script>
+<script src="<?= BASE_URL ?>/assets/js/curso.js"></script>

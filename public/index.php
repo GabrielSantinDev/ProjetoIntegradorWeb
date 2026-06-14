@@ -16,26 +16,30 @@ define('BASE_URL', '/ProjetoIntegradorWeb');
 // Configuração do "Dispatcher" (Despachante) de rotas
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
 
-    // Login e cadastro
-    $r->get('/',           'UsuarioController@login');
+    // Home page
+    $r->get('/',           'UsuarioController@home');
     $r->get('/home',       'UsuarioController@home');
+
+    // Login e cadastro
     $r->get('/login',      'UsuarioController@login');
     $r->post('/login',     'UsuarioController@autenticar');
     $r->get('/cadastro',   'UsuarioController@cadastro');
     $r->post('/cadastro',  'UsuarioController@registrar');
     $r->get('/logout',     'UsuarioController@logout');
 
+    // Aluno e catalogo de cursos
     $r->get('/aluno/home',                          'AlunoController@homeAluno');
     $r->get('/aluno/catalogo',                      'AlunoController@catalogo');
     $r->post('/aluno/matricular',                   'AlunoController@matricular');
 
-    $r->get('/instrutor/home',                      'CursoController@homeInstrutor');
-    $r->post('/instrutor/cursos/novo',              'CursoController@novo');
-    $r->post('/instrutor/cursos/{id}/editar',       'CursoController@editar');
-    $r->get('/instrutor/cursos/{id}',               'CursoController@buscar');
-    $r->post('/instrutor/cursos/{id}/remover',      'CursoController@remover');
-    $r->post('/instrutor/cursos/{id}/atualizar-imagem',      'CursoController@atualizarImagem');
-    $r->post('/instrutor/cursos/toggle-publicacao', 'CursoController@togglePublicacao');
+    // Instrutor e gerenciamento de cursos
+    $r->get('/instrutor/home',                         'CursoController@homeInstrutor');
+    $r->post('/instrutor/cursos/novo',                 'CursoController@novo');
+    $r->post('/instrutor/cursos/{id}/editar',          'CursoController@editar');
+    $r->get('/instrutor/cursos/{id}',                  'CursoController@buscar');
+    $r->post('/instrutor/cursos/{id}/remover',         'CursoController@remover');
+    $r->post('/instrutor/cursos/{id}/atualizar-imagem','CursoController@atualizarImagem');
+    $r->post('/instrutor/cursos/toggle-publicacao',    'CursoController@togglePublicacao');
 
 });
 
@@ -54,17 +58,15 @@ $method = $_SERVER['REQUEST_METHOD'];
 $route = $dispatcher->dispatch($method, $uri);
 
 // --- DECISÃO DO QUE FAZER ---
+
 switch ($route[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
-        // Se a rota não existir no $dispatcher
-        http_response_code(404);
-        echo "Rota não encontrada";
+            require __DIR__ . '/../src/view/pages/error-404.php';
         break;
 
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
         // Se a rota existe, mas foi acessada com o method errado (ex: POST em uma rota GET)
-        http_response_code(405);
-        echo "Método não permitido";
+        require __DIR__ . '/../src/view/pages/error-405.php';
         break;
 
     case FastRoute\Dispatcher::FOUND:

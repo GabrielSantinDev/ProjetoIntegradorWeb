@@ -4,10 +4,11 @@ namespace controller;
 
 use dao\CursoDAO;
 use dao\InstrutorDAO;
+use Exception;
 use model\Curso;
 use model\Instrutor;
-use mysql_xdevapi\Exception;
 use service\StorageService;
+use utils\Auth;
 
 class CursoController
 {
@@ -15,22 +16,14 @@ class CursoController
     public function homeInstrutor(): void
     {
 
-        if (!isset($_SESSION['usuario'])) {
-            header('Location: ' . BASE_URL . '/login');
-            exit;
-        }
-
-        if (strtolower($_SESSION['usuario']['tipo']) !== 'instrutor') {
-            header('Location: ' . BASE_URL . '/login');
-            exit;
-        }
+        Auth::exigirTipo('instrutor');
 
         try {
-            $cursos = CursoDAO::buscarPorInstrutorId($_SESSION['usuario']['id']);
-            require __DIR__ . '/../view/home-instrutor.php';
+            $cursos = CursoDAO::buscarPorInstrutorId(Auth::getId());
+            require __DIR__ . '/../view/pages/home-instrutor.php';
         } catch (\Exception $ex) {
             $erro = $ex->getMessage();
-            require __DIR__ . '/../view/error-404.php';
+            require __DIR__ . '/../view/pages/error-404.php';
         }
     }
 

@@ -8,7 +8,7 @@
 
         <?php
                 $curso = $matricula->getCurso();
-            require __DIR__ . '/curso-imagem.php';
+            require __DIR__ . '/curso-imagem-catalogo.php';
         ?>
 
     </div>

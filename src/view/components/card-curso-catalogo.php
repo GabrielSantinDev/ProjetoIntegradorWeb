@@ -6,7 +6,7 @@
             <?= htmlspecialchars($curso->getCategoria()) ?>
         </span>
 
-        <?php require __DIR__ . '/curso-imagem.php'; ?>
+        <?php require __DIR__ . '/curso-imagem-catalogo.php'; ?>
     </div>
 
     <!-- Conteúdo -->

@@ -6,46 +6,29 @@ use dao\AlunoDAO;
 use dao\InstrutorDAO;
 use model\Aluno;
 use model\Instrutor;
+use utils\Auth;
 
 class UsuarioController
 {
 
     public function home(): void //direcionad o usuario pra home-aluno ou home-instrutor
     {
-        if (!isset($_SESSION['usuario'])) {
-            header('Location: ' . BASE_URL . '/login');
-            exit;
-        }
-
-        if (strtolower($_SESSION['usuario']['tipo']) == 'instrutor') {
-            header('Location: ' . BASE_URL . '/instrutor/home');
-            exit;
-        } else {
-            header('Location: ' . BASE_URL . '/aluno/home');
-        }
+        Auth::exigirLogin();
+        Auth::redirecionarParaHome();
     }
 
-    // =========================================================
     // GET /login — exibe a tela de login
-    // =========================================================
     public function login(): void
     {
-        // Já logado → redireciona direto
-        if (isset($_SESSION['usuario'])) {
-            if (strtolower($_SESSION['usuario']['tipo']) === 'instrutor') {
-                header('Location: ' . BASE_URL . '/instrutor/home');
-            } else {
-                header('Location: ' . BASE_URL . '/aluno/home');
-            }
-
-            exit;
+        if (Auth::estaLogado()) {
+            Auth::redirecionarParaHome();
         }
-        require __DIR__ . '/../view/login-page.php';
+
+        require __DIR__ . '/../view/pages/login-page.php';
     }
 
-    // =========================================================
     // POST /login — processa o formulário
-    // =========================================================
+
     public function autenticar(): void
     {
         try {
@@ -69,44 +52,27 @@ class UsuarioController
                 throw new \Exception("Email ou senha incorretos.");
             }
 
-            // Salva na sessão o que a aplicação vai precisar
-            $_SESSION['usuario'] = [
-                'id'   => $usuario->getId(),
-                'nome' => $usuario->getNome(),
-                'tipo' => $usuario instanceof Instrutor ? 'instrutor' : 'aluno',
-            ];
+            Auth::login($usuario);
+            Auth::redirecionarParaHome();
 
-            header('Location: ' . BASE_URL . '/login');
             exit;
 
         } catch (\Exception $ex) {
             $erro = "Ocorreu um erro ao fazer login. Tente novamente mais tarde.";
-            require __DIR__ . '/../view/login-page.php';
+            require __DIR__ . '/../view/pages/login-page.php';
         }
     }
 
-    // =========================================================
     // GET /cadastro — exibe a tela de cadastro
-    // =========================================================
     public function cadastro(): void
     {
-        // Já logado → redireciona direto
-        if (isset($_SESSION['usuario'])) {
-            if (strtolower($_SESSION['usuario']['tipo']) === 'instrutor') {
-                header('Location: ' . BASE_URL . '/instrutor/home');
-            } else {
-                header('Location: ' . BASE_URL . '/aluno/home');
-            }
-
-            exit;
+        if (Auth::estaLogado()) {
+            Auth::redirecionarParaHome();
         }
-
-        require __DIR__ . '/../view/cadastro-page.php';
+        require __DIR__ . '/../view/pages/cadastro-page.php';
     }
 
-    // =========================================================
     // POST /cadastro — processa o formulário
-    // =========================================================
     public function registrar(): void
     {
         try {
@@ -166,16 +132,14 @@ class UsuarioController
 
         } catch (\Exception $ex) {
             $erro = "Ocorreu um erro ao se cadastrar. Tente novamente mais tarde.";
-            require __DIR__ . '/../view/cadastro-page.php';
+            require __DIR__ . '/../view/pages/cadastro-page.php';
         }
     }
 
-    // =========================================================
     // GET /logout
-    // =========================================================
     public function logout(): void
     {
-        session_destroy();
+        Auth::logout();
         header('Location: ' . BASE_URL . '/login');
         exit;
     }

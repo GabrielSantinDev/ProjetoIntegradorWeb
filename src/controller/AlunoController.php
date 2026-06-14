@@ -3,27 +3,19 @@
 namespace controller;
 use dao\CursoDAO;
 use dao\MatriculaDAO;
-use mysql_xdevapi\Exception;
+use utils\Auth;
 
 class AlunoController
 {
 
     public function homeAluno(): void //direcionad o usuario pra home-aluno ou home-instrutor
     {
-        if (!isset($_SESSION['usuario'])) {
-            header('Location: ' . BASE_URL . '/login');
-            exit;
-        }
-
-        if (strtolower($_SESSION['usuario']['tipo']) !== 'aluno') {
-            header('Location: ' . BASE_URL . '/login');
-            exit;
-        }
+        Auth::exigirTipo('aluno');
 
         try {
-            $alunoId = $_SESSION['usuario']['id'];
 
-            // Matríulas do aluno com progresso
+            $alunoId = Auth::getId();
+
             $matriculas = MatriculaDAO::listarPorAluno($alunoId);
 
             // IDs dos cursos que o aluno já está matriculado
@@ -42,28 +34,20 @@ class AlunoController
             // Pega só os 4 primeiros
             $recomendados = array_slice(array_values($recomendados), 0, 4);
 
-            require __DIR__ . '/../view/home-aluno.php';
+            require __DIR__ . '/../view/pages/home-aluno.php';
 
         } catch (\Exception $ex) {
             $erro = $ex->getMessage();
-            require __DIR__ . '/../view/error-404.php';
+            require __DIR__ . '/../view/pages/error-404.php';
         }
     }
 
     public function catalogo(): void
     {
-        if (!isset($_SESSION['usuario'])) {
-            header('Location: ' . BASE_URL . '/login');
-            exit;
-        }
-
-        if ($_SESSION['usuario']['tipo'] !== 'aluno') {
-            header('Location: ' . BASE_URL . '/instrutor/home');
-            exit;
-        }
+        Auth::exigirTipo('aluno');
 
         try {
-            $alunoId    = $_SESSION['usuario']['id'];
+            $alunoId = Auth::getId();
             $matriculas = MatriculaDAO::listarPorAluno($alunoId);
 
             $cursosMatriculadosIds = array_map(
@@ -78,20 +62,19 @@ class AlunoController
             );
             $cursos = array_values($cursos);
 
-            require __DIR__ . '/../view/catalogo-page.php';
+            require __DIR__ . '/../view/pages/catalogo-page.php';
 
         } catch (\Exception $ex) {
             $erro = $ex->getMessage();
-            require __DIR__ . '/../view/error-404.php';
+            require __DIR__ . '/../view/pages/error-404.php';
         }
     }
 
     public function matricular(): void
     {
-        if (!isset($_SESSION['usuario'])) {
-            header('Location: ' . BASE_URL . '/login');
-            exit;
-        }
+        Auth::exigirLogin();
+
+        $alunoId = Auth::getId();
 
         try {
             $cursoId = filter_input(INPUT_POST, 'curso_id', FILTER_VALIDATE_INT);
@@ -99,8 +82,6 @@ class AlunoController
             if (!$cursoId) {
                 throw new \Exception("Curso inválido.");
             }
-
-            $alunoId = $_SESSION['usuario']['id'];
 
             // Verifica se já está matriculado
             $jaMatriculado = MatriculaDAO::buscarPorAlunoECurso($alunoId, $cursoId);
@@ -132,15 +113,22 @@ class AlunoController
 
         } catch (\Exception $ex) {
             $erro = $ex->getMessage();
+
             // Recarrega o catálogo com a mensagem de erro
-            $matriculas = MatriculaDAO::listarPorAluno($_SESSION['usuario']['id']);
+            $matriculas = MatriculaDAO::listarPorAluno($alunoId);
+
             $cursosMatriculadosIds = array_map(fn($m) => $m->getCurso()->getId(), $matriculas);
+
             $cursos = array_filter(
                 \dao\CursoDAO::listarPublicados(),
                 fn($c) => !in_array($c->getId(), $cursosMatriculadosIds)
             );
+
             $cursos = array_values($cursos);
-            require __DIR__ . '/../view/catalogo-page.php';
+            require __DIR__ . '/../view/pages/catalogo-page.php';
+        } catch (\Exception $e) {
+            $erro = $e->getMessage();
+            require __DIR__ . '/../view/pages/error-404.php';
         }
     }
 
