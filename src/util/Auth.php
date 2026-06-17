@@ -5,10 +5,12 @@ namespace utils;
 use model\Instrutor;
 use model\Usuario;
 
+// ============================================================================================================
+// =========== Facade que encapsula toda a lógica de autenticação, sessão e autorização do sistema =============
 class Auth
 {
     // =========================================================
-    // SESSÃO — leitura
+    // Leitura
     // =========================================================
 
     public static function estaLogado(): bool
@@ -47,11 +49,11 @@ class Auth
     }
 
     // =========================================================
-    // SESSÃO — escrita
+    // Escrita
     // =========================================================
 
     /**
-     * Salva o usuário autenticado na sessao e determina o tipo automaticamente pela classe do model.
+     * Salva o usuario autenticado na sessao e determina o tipo automaticamente pela classe do model
      */
     public static function login(Usuario $usuario): void
     {
@@ -67,13 +69,8 @@ class Auth
         session_destroy();
     }
 
-    // =========================================================
-    // GUARDAS — interrompem a execução com redirect
-    // =========================================================
-
     /**
-     * Garante que existe um usuaario logado.
-     * Se nao, redireciona para o login e encerra a execução.
+     * Garante que existe um usuaario logado. Se nao, redireciona para o login e encerra a execuçao
      */
     public static function exigirLogin(): void
     {
@@ -84,8 +81,8 @@ class Auth
     }
 
     /**
-     * Garante que o usuário logado é do tipo esperado ('aluno' ou 'instrutor').
-     * Se não for, redireciona para a home correspondente ao tipo dele.
+     * Garante que o usuario logado é do tipo esperado aluno ou instrutor
+     * Se nao, redireciona para a home correspondente ao tipo dele.
      */
     public static function exigirTipo(string $tipoEsperado): void
     {
@@ -101,7 +98,7 @@ class Auth
     }
 
     /**
-     * Redireciona para a home correta de acordo com o tipo do usuário logado.
+     * Redireciona para a home correta dependendo do tipo do usuaario logado
      */
     public static function redirecionarParaHome(): void
     {
