@@ -3,6 +3,7 @@
 namespace controller;
 use dao\CursoDAO;
 use dao\MatriculaDAO;
+use utils\Alert;
 use utils\Auth;
 
 class AlunoController
@@ -86,7 +87,8 @@ class AlunoController
             // Verifica se já está matriculado
             $jaMatriculado = MatriculaDAO::buscarPorAlunoECurso($alunoId, $cursoId);
             if ($jaMatriculado) {
-                throw new \Exception("Você já está matriculado neste curso.");
+                Alert::error("Erro: Você já está matriculado neste curso!");
+                throw new \Exception("Erro: Você já está matriculado neste curso!");
             }
 
             $curso = \dao\CursoDAO::buscarId($cursoId);
@@ -107,6 +109,7 @@ class AlunoController
             $matricula->setDataMatricula(new \DateTime());
 
             MatriculaDAO::salvar($matricula);
+            Alert::success("Matricula realizada com sucesso.");
 
             header('Location: ' . BASE_URL . '/aluno/home');
             exit;

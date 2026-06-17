@@ -19,7 +19,7 @@ class Avaliacao extends GenericModel
     #[ORM\Column(type: 'string')]
     private $descricao;
 
-    #[Column(type: "decimal", precision: 10, scale: 2)]
+    #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
     private $valor;
 
     /**

@@ -12,8 +12,7 @@ class Curso extends GenericModel
     #[ORM\ManyToOne(targetEntity: Instrutor::class, inversedBy: 'cursos_criados')]
     #[ORM\JoinColumn(name: 'instrutor_id')]
     private $instrutor = null;
-    #[ORM\OneToMany(targetEntity: Matricula::class, mappedBy: "curso", cascade: ["all"]
-        , orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Matricula::class, mappedBy: "curso")]
     private $matriculas;
     #[ORM\Column(type: 'string')]
     private $titulo;
@@ -28,8 +27,7 @@ class Curso extends GenericModel
 
     #[ORM\Column(type: 'boolean')]
     private $publicado;
-    #[ORM\OneToMany(targetEntity: Avaliacao::class, mappedBy: "curso", cascade: ["all"]
-        , orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Avaliacao::class, mappedBy: "curso")]
     private $avaliacoes;
 
     #[ORM\Column(type: 'string', nullable: true)]

@@ -73,12 +73,17 @@
                         Editar
                     </button>
 
-                    <form action="<?= BASE_URL ?>/instrutor/cursos/<?= $curso->getId() ?>/remover" method="POST">
-                        <button type="submit" class="btn btn-card btn-card-remove">
-                            <i class="fa-solid fa-trash"></i>
-                            Remover
-                        </button>
-                    </form>
+                    <button
+                            class="btn btn-card btn-card-remove js-remover-curso"
+                            data-id="<?= $curso->getId() ?>"
+                            data-titulo="<?= htmlspecialchars($curso->getTitulo()) ?>"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalRemoverCurso">
+
+                        <i class="fa-solid fa-trash"></i>
+                        Remover
+
+                    </button>
 
                 </div>
             </div>

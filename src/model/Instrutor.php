@@ -17,8 +17,6 @@ class Instrutor extends \model\Usuario
     private $descricao;
     #[ORM\Column(type: 'float')]
     private $avaliacao;
-    #[Column(type: "decimal", precision: 10, scale: 2)]
-    private $ganhos_totais;
 
     /**
      * @return mixed
@@ -82,22 +80,6 @@ class Instrutor extends \model\Usuario
     public function setAvaliacao($avaliacao): void
     {
         $this->avaliacao = $avaliacao;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getGanhosTotais()
-    {
-        return $this->ganhos_totais;
-    }
-
-    /**
-     * @param mixed $ganhos_totais
-     */
-    public function setGanhosTotais($ganhos_totais): void
-    {
-        $this->ganhos_totais = $ganhos_totais;
     }
 
 }

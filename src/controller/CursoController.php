@@ -8,6 +8,7 @@ use Exception;
 use model\Curso;
 use model\Instrutor;
 use service\StorageService;
+use utils\Alert;
 use utils\Auth;
 
 class CursoController
@@ -125,12 +126,13 @@ class CursoController
 
             // salva (vai virar UPDATE automaticamente)
             CursoDAO::salvar($curso);
+            Alert::success("Curso editado com sucesso!");
 
             header('Location: ' . BASE_URL . '/instrutor/home');
             exit;
 
         } catch (\Exception $e) {
-            echo "Erro ao editar curso: " . $e->getMessage();
+            Alert::error("Ocorreu um erro ao editar curso.");
             exit;
         }
     }
@@ -145,7 +147,14 @@ class CursoController
                 throw new Exception("Curso não encontrado.");
             }
 
+            if (!$curso->getMatriculas()->isEmpty()) {
+                $ex = "Não é possível remover um curso que possui matrículas.";
+                Alert::error($ex);
+                throw new Exception($ex);
+            }
+
             CursoDAO::deletar($curso);
+            Alert::success("Curso removido com sucesso!");
 
         } catch (\Exception $ex) {
             $erro = $ex->getMessage();
@@ -153,6 +162,7 @@ class CursoController
         }
 
         header('Location: ' . BASE_URL . '/instrutor/home');
+        exit;
 
     }
 
@@ -236,7 +246,6 @@ class CursoController
                 exit;
             }
 
-            echo "Erro ao salvar imagem: " . $ex->getMessage();
         }
 
         header('Location: ' . BASE_URL . '/instrutor/home');

@@ -81,6 +81,23 @@ function configurarModal() {
             $('#formCurso').find('.invalid-feedback').remove();
         }
     });
+
+    // ---------------------------------------------
+    // Modal de confirmacao antes de excluir um curso
+    // -------------------
+
+    $('.js-remover-curso').on('click', function () {
+
+        const id = $(this).data('id');
+        const titulo = $(this).data('titulo');
+
+        $('#cursoNomeRemocao').text(titulo);
+
+        $('#formRemoverCurso').attr(
+            'action',
+            BASE_URL + '/instrutor/cursos/' + id + '/remover'
+        );
+    });
 }
 
 function configurarPublicacao() {
@@ -191,20 +208,22 @@ function configurarUpload() {
                             img.attr('src', newUrl);
                         } else {
                             // insert image at the start so overlay/badge remain
+                            thumb.find('.thumb-default-icon').remove();
                             thumb.prepend('<img src="' + newUrl + '" alt="Thumb" class="img-fluid" />');
                         }
                     }
 
-                    alert('Imagem atualizada com sucesso!');
+                    //alert('Imagem atualizada com sucesso!');
                 } else {
-                    alert('Erro ao atualizar imagem: ' + (data.message || ''));
+                    //alert('Erro ao atualizar imagem: ' + (data.message || ''));
+                    console.log('Erro ao atualizar imagem: ' + (data.message || ''));
                 }
             },
 
             error: function (xhr) {
                 console.log("STATUS:", xhr.status);
                 console.log("RESPOSTA:", xhr.responseText);
-                alert("Erro no upload (veja console)");
+                //alert("Erro no upload (veja console)");
             }
         });
     });

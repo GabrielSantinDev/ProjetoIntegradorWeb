@@ -34,6 +34,8 @@ require __DIR__ . '/../templates/template-navbar.php';
 
 <?php require __DIR__ . '/../components/modal-curso.php'; ?>
 
+<?php require __DIR__ . '/../components/modal-remover-curso.php'; ?>
+
 <?php require __DIR__ . '/../templates/template-footer.php'; ?>
 
-<script src="<?= BASE_URL ?>/assets/js/curso.js"></script>
+<script src="<?= BASE_URL ?>/public/assets/js/curso.js"></script>
