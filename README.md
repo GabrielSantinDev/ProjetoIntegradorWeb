@@ -30,6 +30,12 @@ O projeto aplica o padrão arquitetural **MVC-DAO** com PHP puro, persistência 
 
 ---
 
+## 🎥 Vídeo de Demonstração
+
+- 📽️ [Apresentação geral](https://drive.google.com/file/d/1l83lf0VSuJMqYEMVThDhYMX1AdCPQKej/view?usp=sharing)
+
+---
+
 ## 🎯 Funcionalidades
 
 ### 👨‍🎓 Aluno
