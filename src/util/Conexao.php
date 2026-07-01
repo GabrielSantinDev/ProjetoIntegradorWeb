@@ -18,6 +18,10 @@ class Conexao {
                 isDevMode: false,
             );
 
+            $config->setProxyDir(__DIR__ . '/../../var/proxies');
+            $config->setProxyNamespace('Proxies');
+            $config->setAutoGenerateProxyClasses(true);
+
             $connection = DriverManager::getConnection([
                 'driver' => $_ENV['DB_DRIVER'],
                 'host' => $_ENV['DB_HOST'],
