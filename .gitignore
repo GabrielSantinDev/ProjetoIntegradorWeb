@@ -10,6 +10,8 @@
 /httpRequests/
 
 /vendor/
+/certs/
+/certs/ca.pem
 
 .env
 .env.local

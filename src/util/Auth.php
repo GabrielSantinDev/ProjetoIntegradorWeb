@@ -13,15 +13,8 @@ class Auth
     // Leitura
     // =========================================================
 
-    public static function estaLogado(): bool
-    {
-        return isset($_SESSION['usuario']);
-    }
-
-    public static function getUsuario(): ?array
-    {
-        return $_SESSION['usuario'] ?? null;
-    }
+    public static function estaLogado(): bool{ return isset($_SESSION['usuario']); }
+    public static function getUsuario(): ?array{ return $_SESSION['usuario'] ?? null; }
 
     public static function getId(): ?int
     {

@@ -11,6 +11,7 @@ class AlunoController
 
     public function homeAluno(): void //direcionad o usuario pra home-aluno ou home-instrutor
     {
+
         Auth::exigirTipo('aluno');
 
         try {

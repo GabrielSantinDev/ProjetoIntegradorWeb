@@ -27,6 +27,10 @@ class Conexao {
                 'dbname' => $_ENV['DB_NAME'],
                 'user' => $_ENV['DB_USER'],
                 'password' => $_ENV['DB_PASSWORD'],
+
+                'driverOptions' => [
+                    \PDO::MYSQL_ATTR_SSL_CA => realpath(__DIR__ . '/../../certs/ca.pem'),
+                ],
             ], $config);
 
             self::$entityManager = new EntityManager($connection, $config);
