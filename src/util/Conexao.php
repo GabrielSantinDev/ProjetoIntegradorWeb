@@ -15,10 +15,8 @@ class Conexao {
         if (self::$entityManager === null) {
             $config = ORMSetup::createAttributeMetadataConfiguration(
                 paths: [realpath(__DIR__ . '/../model')],
-                isDevMode: true,
+                isDevMode: false,
             );
-            $dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
-            $dotenv->load();
 
             $connection = DriverManager::getConnection([
                 'driver' => $_ENV['DB_DRIVER'],

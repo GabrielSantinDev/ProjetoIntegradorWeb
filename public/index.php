@@ -11,7 +11,7 @@ require "../vendor/autoload.php";
 
 
 # Define uma constante com o caminho base do projeto
-define('BASE_URL', '/ProjetoIntegradorWeb');
+define('BASE_URL', '');
 
 // Configuração do "Dispatcher" (Despachante) de rotas
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {

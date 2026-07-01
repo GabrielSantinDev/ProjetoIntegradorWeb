@@ -12,8 +12,6 @@ class StorageService
 
     public function __construct()
     {
-        $dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
-        $dotenv->load();
 
         // Inicializa a configuração global do Cloudinary a partir do .env
         $config = [
