@@ -20,6 +20,14 @@
 
 </div>
 
+<div align="center">
+
+### 🔗 [Ver aplicação online](https://skillup-php.onrender.com/login)
+
+> ⚠️ Hospedado no plano gratuito do Render - o primeiro acesso pode levar de 30 a 60 segundos para carregar.
+
+</div>
+
 ---
 
 ## 📖 Sobre o Projeto
