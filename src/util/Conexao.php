@@ -27,7 +27,8 @@ class Conexao {
                 'password' => $_ENV['DB_PASSWORD'],
 
                 'driverOptions' => [
-                    \PDO::MYSQL_ATTR_SSL_CA => realpath(__DIR__ . '/../../certs/ca.pem'),
+                    \PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+                    \PDO::MYSQL_ATTR_SSL_CA => true
                 ],
             ], $config);
 
